@@ -1,9 +1,7 @@
-
-
 const CONFIG = window.FLAREMAP_CONFIG || {};
 
 const SUPABASE_URL = CONFIG.SUPABASE_URL || "https://gywjyuzrdkhjpqmvvpgp.supabase.co";
-const SUPABASE_KEY = CONFIG.SUPABASE_PUBLISHABLE_KEY || "sb_publishable_9baQ54kcja4cnFhz64QBWg_dKFetGYF ";
+const SUPABASE_KEY = CONFIG.SUPABASE_PUBLISHABLE_KEY || "sb_publishable_9baQ54kcja4cnFhz64QBWg_dKFetGYF";
 
 const hasSupabaseConfig = Boolean(
   SUPABASE_URL &&
@@ -12,7 +10,7 @@ const hasSupabaseConfig = Boolean(
   !SUPABASE_KEY.includes("YOUR_SUPABASE")
 );
 
-const supabase = hasSupabaseConfig
+const supabaseClient = hasSupabaseConfig
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
   : null;
 
@@ -177,10 +175,10 @@ function startDemoMonitoring() {
 }
 
 // Database connection
-async function scignInAnonymously() {
-  if (!supabase) return null;
+async function signInAnonymously() {
+  if (!supabaseClient) return null;
 
-  const { data, error } = await supabase.auth.signInAnonymously();
+  const { data, error } = await supabaseClient.auth.signInAnonymously();
 
   if (error) {
     console.error("Anonymous sign-in failed:", error.message);
@@ -211,7 +209,7 @@ async function submitReport(event) {
     return;
   }
 
-  if (!supabase || !currentUser) {
+  if (!supabaseClient || !currentUser) {
     showMessage(
       reportMessage,
       "Database is not connected yet. Your report was not submitted.",
@@ -224,7 +222,7 @@ async function submitReport(event) {
   if (submitButton) submitButton.disabled = true;
 
   try {
-    const { error } = await supabase
+    const { error } = await supabaseClient
       .from("alarm_events")
       .insert({
         user_id: currentUser.id,
@@ -298,9 +296,9 @@ function renderEvents(events) {
 }
 
 async function loadEvents() {
-  if (!supabase) return;
+  if (!supabaseClient) return;
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("alarm_events")
     .select("*")
     .order("created_at", { ascending: false })
@@ -314,11 +312,10 @@ async function loadEvents() {
   renderEvents(data);
 }
 
-
 async function checkAdmin(userId) {
-  if (!supabase || !userId) return false;
+  if (!supabaseClient || !userId) return false;
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("admin_users")
     .select("id")
     .eq("id", userId)
@@ -332,12 +329,11 @@ async function checkAdmin(userId) {
   return Boolean(data);
 }
 
-
 async function handleAdminLogin(event) {
   event.preventDefault();
   clearMessage(adminMessage);
 
-  if (!supabase) {
+  if (!supabaseClient) {
     showMessage(
       adminMessage,
       "Connect your Supabase project first.",
@@ -358,7 +354,7 @@ async function handleAdminLogin(event) {
     return;
   }
 
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
     email,
     password
   });
@@ -372,7 +368,7 @@ async function handleAdminLogin(event) {
   isAdmin = await checkAdmin(currentUser.id);
 
   if (!isAdmin) {
-    await supabase.auth.signOut();
+    await supabaseClient.auth.signOut();
     currentUser = null;
 
     showMessage(
@@ -389,8 +385,8 @@ async function handleAdminLogin(event) {
 }
 
 async function handleAdminLogout() {
-  if (supabase) {
-    await supabase.auth.signOut();
+  if (supabaseClient) {
+    await supabaseClient.auth.signOut();
   }
 
   currentUser = null;
@@ -404,7 +400,7 @@ async function handleAdminLogout() {
 // Demo alert: saves a test event to the database.
 // It does not contact emergency services.
 async function sendTestAlert() {
-  if (!supabase || !currentUser || !isAdmin) {
+  if (!supabaseClient || !currentUser || !isAdmin) {
     showMessage(
       adminMessage,
       "Log in with an authorized administrator account first.",
@@ -413,7 +409,7 @@ async function sendTestAlert() {
     return;
   }
 
-  const { error } = await supabase
+  const { error } = await supabaseClient
     .from("alarm_events")
     .insert({
       user_id: currentUser.id,
@@ -443,7 +439,7 @@ async function enablePushNotifications() {
     return;
   }
 
-  if (!supabase || !currentUser) {
+  if (!supabaseClient || !currentUser) {
     showMessage(
       adminMessage,
       "Connect Supabase and sign in first.",
@@ -480,7 +476,7 @@ async function enablePushNotifications() {
       applicationServerKey: urlBase64ToUint8Array(CONFIG.VAPID_PUBLIC_KEY)
     });
 
-    const { error } = await supabase.functions.invoke("flaremap", {
+    const { error } = await supabaseClient.functions.invoke("flaremap", {
       body: {
         action: "subscribe",
         subscription
@@ -524,9 +520,9 @@ function urlBase64ToUint8Array(base64String) {
 
 // Realtime updates
 function listenForNewEvents() {
-  if (!supabase) return;
+  if (!supabaseClient) return;
 
-  supabase
+  supabaseClient
     .channel("flaremap-events")
     .on(
       "postgres_changes",
@@ -544,7 +540,7 @@ function listenForNewEvents() {
 function updateConnectionStatus() {
   if (!connectionStatus) return;
 
-  if (supabase) {
+  if (supabaseClient) {
     connectionStatus.textContent = "Database configured";
   } else {
     connectionStatus.textContent = "Demo mode";
@@ -574,7 +570,7 @@ async function initializeFlareMap() {
   updateConnectionStatus();
   startDemoMonitoring();
 
-  if (!supabase) {
+  if (!supabaseClient) {
     console.warn("FlareMap is running in demo mode.");
     return;
   }
