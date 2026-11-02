@@ -414,14 +414,14 @@ async function sendTestAlert() {
     .from("alarm_events")
  .insert({
   user_id: currentUser.id,
+  created_by: currentUser.id,
   location: "FlareMap Demo",
   description: "Administrator-created test alert.",
-incident_type: "test_alert",
-event_type: "test_alert",
-
-  status: "resolved"
+  incident_type: "test_alert",
+  event_type: "test_alert",
+  status: "resolved",
+  is_test: true
 });
-
   if (error) {
     showMessage(adminMessage, "Could not create the test alert.", "error");
     return;
