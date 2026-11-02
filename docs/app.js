@@ -1,19 +1,21 @@
 
+
 const CONFIG = window.FLAREMAP_CONFIG || {};
 
+const SUPABASE_URL = CONFIG.SUPABASE_URL || "https://gywjyuzrdkhjpqmvvpgp.supabase.co";
+const SUPABASE_KEY = CONFIG.SUPABASE_PUBLISHABLE_KEY || "sb_publishable_9baQ54kcja4cnFhz64QBWg_dKFetGYF ";
 
-const SUPABASE_URL ="https://gywjyuzrdkhjpqmvvpgp.supabase.co/rest/v1/"";
-const SUPABASE_KEY = "sb_publishable_9baQ54kcja4cnFhz64QBWg_dKFetGYF";
-
-const hasSupabaseConfig =
+const hasSupabaseConfig = Boolean(
   SUPABASE_URL &&
   SUPABASE_KEY &&
   !SUPABASE_URL.includes("YOUR-PROJECT-REF") &&
-  !SUPABASE_KEY.includes("YOUR_SUPABASE");
+  !SUPABASE_KEY.includes("YOUR_SUPABASE")
+);
 
 const supabase = hasSupabaseConfig
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
   : null;
+
 
 // Dashboard elements
 const temperatureValue = document.getElementById("temperatureValue");
@@ -175,7 +177,7 @@ function startDemoMonitoring() {
 }
 
 // Database connection
-async function signInAnonymously() {
+async function scignInAnonymously() {
   if (!supabase) return null;
 
   const { data, error } = await supabase.auth.signInAnonymously();
@@ -312,14 +314,14 @@ async function loadEvents() {
   renderEvents(data);
 }
 
-// Admin login
+
 async function checkAdmin(userId) {
   if (!supabase || !userId) return false;
 
   const { data, error } = await supabase
     .from("admin_users")
-    .select("user_id")
-    .eq("user_id", userId)
+    .select("id")
+    .eq("id", userId)
     .maybeSingle();
 
   if (error) {
@@ -329,6 +331,7 @@ async function checkAdmin(userId) {
 
   return Boolean(data);
 }
+
 
 async function handleAdminLogin(event) {
   event.preventDefault();
