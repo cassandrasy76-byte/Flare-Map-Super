@@ -228,7 +228,8 @@ async function submitReport(event) {
         user_id: currentUser.id,
         location,
         description,
-        event_type: incidentType,
+     incident_type: incidentType,
+event_type: incidentType,
         status: "reported"
       });
 
@@ -415,9 +416,10 @@ async function sendTestAlert() {
   user_id: currentUser.id,
   location: "FlareMap Demo",
   description: "Administrator-created test alert.",
-  incident_type: "test_alert",
-  event_type: "test_alert",
-  status: "test"
+incident_type: "test_alert",
+event_type: "test_alert",
+
+  status: "resolved"
 });
 
   if (error) {
