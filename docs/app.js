@@ -2,8 +2,8 @@
 const CONFIG = window.FLAREMAP_CONFIG || {};
 
 
-const SUPABASE_URL =https://gywjyuzrdkhjpqmvvpgp.supabase.co/rest/v1/;
-const SUPABASE_KEY = sb_publishable_9baQ54kcja4cnFhz64QBWg_dKFetGYF;
+const SUPABASE_URL ="https://gywjyuzrdkhjpqmvvpgp.supabase.co/rest/v1/"";
+const SUPABASE_KEY = "sb_publishable_9baQ54kcja4cnFhz64QBWg_dKFetGYF";
 
 const hasSupabaseConfig =
   SUPABASE_URL &&
