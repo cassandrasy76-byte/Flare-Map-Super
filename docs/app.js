@@ -525,8 +525,48 @@ function urlBase64ToUint8Array(base64String) {
 
   return outputArray;
 }
+// Fire incident alarm
+let alarmEnabled = false;
+let alarmAudioContext = null;
+let alarmStopTimer = null;
+const alertedIncidentIds = new Set();
+function playFireAlarm() {
+  if (!alarmEnabled) return;
 
-// Realtime updates
+  if (!alarmAudioContext) {
+    alarmAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  alarmAudioContext.resume();
+
+  if (alarmStopTimer) {
+    clearTimeout(alarmStopTimer);
+  }
+
+  const oscillator = alarmAudioContext.createOscillator();
+  const gain = alarmAudioContext.createGain();
+
+  oscillator.type = "sawtooth";
+  oscillator.frequency.setValueAtTime(850, alarmAudioContext.currentTime);
+  oscillator.frequency.linearRampToValueAtTime(
+    1200,
+    alarmAudioContext.currentTime + 0.5
+  );
+
+  gain.gain.setValueAtTime(0.7, alarmAudioContext.currentTime);
+
+  oscillator.connect(gain);
+  gain.connect(alarmAudioContext.destination);
+
+  oscillator.start();
+
+  alarmStopTimer = setTimeout(() => {
+    oscillator.stop();
+    oscillator.disconnect();
+    gain.disconnect();
+  }, 10000);
+}
+//// Realtime updates
 function listenForNewEvents() {
   if (!supabaseClient) return;
 
@@ -535,11 +575,22 @@ function listenForNewEvents() {
     .on(
       "postgres_changes",
       {
-        event: "*",
+        event: "INSERT",
         schema: "public",
         table: "alarm_events"
       },
-      () => loadEvents()
+      (payload) => {
+        const newEvent = payload.new;
+
+        if (newEvent?.id && alarmEnabled) {
+          if (!alertedIncidentIds.has(newEvent.id)) {
+            alertedIncidentIds.add(newEvent.id);
+            playFireAlarm();
+          }
+        }
+
+        loadEvents();
+      }
     )
     .subscribe();
 }
@@ -570,7 +621,30 @@ document
 document
   .getElementById("enablePushBtn")
   ?.addEventListener("click", enablePushNotifications);
+// Enable fire alarm after user interaction
+document
+  .getElementById("enableAlarmBtn")
+  ?.addEventListener("click", async () => {
+    try {
+      if (!alarmAudioContext) {
+        alarmAudioContext = new (
+          window.AudioContext || window.webkitAudioContext
+        )();
+      }
 
+      await alarmAudioContext.resume();
+
+      alarmEnabled = true;
+
+      const button = document.getElementById("enableAlarmBtn");
+      button.textContent = "✓ Fire Alarm Enabled";
+      button.disabled = true;
+
+    } catch (error) {
+      console.error("Could not enable fire alarm:", error);
+      alert("Unable to enable the fire alarm. Please try again.");
+    }
+  });
 window.addEventListener("resize", drawChart);
 
 // Start application

@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -21,305 +20,248 @@
 <body>
 
 <header class="topbar">
-  <div class="brand">
-    <img src="icons/house.svg" alt="FlareMap logo">
-    <div>
-      <h1>FlareMap</h1>
-      <p>COMMUNITY FIRE AWARENESS</p>
-    </div>
-  </div>
+  <a class="brand" href="./">
+    <span class="brand-mark">F</span>
+    <span>
+      <strong>FlareMap</strong>
+      <small>COMMUNITY FIRE AWARENESS</small>
+    </span>
+  </a>
 
-  <div class="status">
-    <span class="status-dot"></span>
-    <span id="connectionStatus">Demo mode</span>
+  <div class="top-actions">
+    <span class="status-pill"
+      <span class="status-dot"></span>
+      <span id="connectionStatus">Demo mode</span>
+    </span>
+
+    <button class="button button-quiet" id="adminOpenBtn">
+      Administrator
+    </button>
   </div>
 </header>
 
 <main class="container">
 
-  <section class="page-heading">
-    <h2>Community Safety Dashboard</h2>
-    <p>
-      Monitor simulated environmental readings and submit
-      community incident reports.
-    </p>
+  <section class="hero">
+    <div>
+      <p class="eyebrow">MONITORING OVERVIEW</p>
+      <h1>Community Safety Dashboard</h1>
+      <p class="muted">
+        A prototype for viewing environmental readings and reporting an alert.
+      </p>
+    </div>
+
+    <div class="hero-meta">
+      <span class="eyebrow">LAST UPDATED</span>
+      <strong id="lastUpdated">Waiting for readings…</strong>
+    </div>
   </section>
 
-  <div class="notice">
+  <div class="demo-notice">
     <strong>Prototype mode:</strong>
-    All sensor readings displayed are simulated.
-    This is not a certified fire, smoke, or carbon monoxide alarm.
-    Do not rely on it for real emergency warnings.
+    All sensor readings shown here are simulated.
+    This dashboard is not a certified fire, smoke or CO alarm.
   </div>
 
-  <!-- SENSOR METRICS -->
-  <section class="metrics">
+  <section class="metrics-grid">
 
     <article class="metric-card">
-      <span class="metric-label">Temperature</span>
-      <div class="metric-value">
-        <span id="temperatureValue">--</span>
-        <span class="metric-unit">°C</span>
+      <div class="metric-top">
+        <span>Temperature</span>
+        <span class="metric-icon">°C</span>
       </div>
-      <p class="metric-note">Simulated room temperature</p>
+      <div class="metric-value">
+        <span id="temperature">--</span><small>°C</small>
+      </div>
+      <p class="metric-foot">Simulated room temperature</p>
     </article>
 
     <article class="metric-card">
-      <span class="metric-label">Humidity</span>
-      <div class="metric-value">
-        <span id="humidityValue">--</span>
-        <span class="metric-unit">%</span>
+      <div class="metric-top">
+        <span>Humidity</span>
+        <span class="metric-icon">%</span>
       </div>
-      <p class="metric-note">Simulated relative humidity</p>
+      <div class="metric-value">
+        <span id="humidity">--</span><small>%</small>
+      </div>
+      <p class="metric-foot">Simulated relative humidity</p>
     </article>
 
     <article class="metric-card">
-      <span class="metric-label">Gas sensor</span>
-      <div class="metric-value">
-        <span id="gasValue">--</span>
-        <span class="metric-unit">index</span>
+      <div class="metric-top">
+        <span>Gas sensor</span>
+        <span class="metric-icon">MQ</span>
       </div>
-      <p class="metric-note">Illustrative gas reading</p>
+      <div class="metric-value">
+        <span id="gas">--</span><small>index</small>
+      </div>
+      <p class="metric-foot">Illustrative gas reading only</p>
     </article>
 
     <article class="metric-card">
-      <span class="metric-label">Carbon monoxide</span>
-      <div class="metric-value">
-        <span id="coValue">--</span>
-        <span class="metric-unit">index</span>
+      <div class="metric-top">
+        <span>CO sensor</span>
+        <span class="metric-icon">CO</span>
       </div>
-      <p class="metric-note">Not a calibrated ppm measurement</p>
+      <div class="metric-value">
+        <span id="carbonMonoxide">--</span><small>index</small>
+      </div>
+      <p class="metric-foot">Not a calibrated ppm measurement</p>
     </article>
 
   </section>
 
-  <!-- MONITORING AND ROOM OVERVIEW -->
   <section class="content-grid">
 
     <article class="panel">
-      <div class="panel-header">
-        <h3>Reading History</h3>
-        <span class="metric-note">Live simulation</span>
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">LIVE SIMULATION</p>
+          <h2>Reading history</h2>
+        </div>
+        <span class="small-tag">Last 12 updates</span>
       </div>
-
-      <p class="panel-description">
-        Temperature readings over time.
-      </p>
 
       <div class="chart-wrap">
-        <canvas id="historyChart"></canvas>
+        <canvas id="readingChart"></canvas>
       </div>
+
+      <p class="metric-foot">
+        Illustrative temperature trend. Values are generated by this browser.
+      </p>
     </article>
 
-    <article class="panel">
-      <div class="panel-header">
-        <h3>Monitoring Overview</h3>
-      </div>
+    <article class="panel alert-panel">
+      <p class="eyebrow">COMMUNITY REPORT</p>
+      <h2>Report an incident</h2>
 
-      <img
-        src="assets/room.svg"
-        alt="Illustration of a monitored room"
-        class="room-illustration"
-      >
-
-      <div class="sensor-list">
-
-        <div class="sensor-item">
-          <span class="sensor-name">Temperature</span>
-          <span class="sensor-value">Simulated</span>
-        </div>
-
-        <div class="sensor-item">
-          <span class="sensor-name">Humidity</span>
-          <span class="sensor-value">Simulated</span>
-        </div>
-
-        <div class="sensor-item">
-          <span class="sensor-name">Gas and CO</span>
-          <span class="sensor-value">Simulated</span>
-        </div>
-
-      </div>
-    </article>
-
-  </section>
-
-  <!-- COMMUNITY REPORT -->
-  <section class="panel">
-
-    <div class="panel-header">
-      <h3>Community Incident Report</h3>
-    </div>
-
-    <p class="panel-description">
-      Submit a report to test the FlareMap reporting system.
-      For real emergencies, contact local emergency services.
-    </p>
-
-    <form id="reportForm">
-
-      <div class="form-grid">
-
-        <div class="field">
-          <label for="reportLocation">Location or area</label>
-          <input
-            id="reportLocation"
-            name="location"
-            type="text"
-            maxlength="100"
-            placeholder="e.g. House 12, Block 3"
-            required
-          >
-        </div>
-
-        <div class="field">
-          <label for="incidentType">Incident type</label>
-          <select id="incidentType" name="incidentType" required>
-            <option value="fire">Fire-related report</option>
-            <option value="smoke">Smoke observation</option>
-            <option value="gas">Gas-related observation</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-
-        <div class="field full">
-          <label for="reportDescription">Description</label>
-          <textarea
-            id="reportDescription"
-            name="description"
-            maxlength="500"
-            placeholder="Describe your test report..."
-            required
-          ></textarea>
-        </div>
-
-      </div>
-
-      <div class="form-actions">
-        <button class="btn danger" type="submit">
-          Submit Report
-        </button>
-      </div>
-
-      <div id="reportMessage" class="message"></div>
-
-    </form>
-
-  </section>
-
-  <!-- RECENT EVENTS -->
-  <section class="panel">
-
-    <div class="panel-header">
-      <h3>Recent Incident Reports</h3>
-
-      <button
-        class="btn secondary"
-        type="button"
-        onclick="location.reload()"
-      >
-        Refresh
-      </button>
-    </div>
-
-    <div id="eventList" class="event-list">
-      <div class="empty-state">
-        No incident reports loaded yet.
-      </div>
-    </div>
-
-  </section>
-
-  <!-- ADMINISTRATOR PANEL -->
-  <section class="panel admin-panel">
-
-    <div class="panel-header">
-      <h3>Administrator Access</h3>
-    </div>
-
-    <form id="adminLoginForm">
-
-      <div class="form-grid">
-
-        <div class="field">
-          <label for="adminEmail">Email address</label>
-          <input
-            id="adminEmail"
-            type="email"
-            placeholder="admin@example.com"
-            required
-          >
-        </div>
-
-        <div class="field">
-          <label for="adminPassword">Password</label>
-          <input
-            id="adminPassword"
-            type="password"
-            placeholder="Enter password"
-            required
-          >
-        </div>
-
-      </div>
-
-      <div class="form-actions">
-        <button class="btn" type="submit">
-          Sign In
-        </button>
-      </div>
-
-    </form>
-
-    <div id="adminMessage" class="message"></div>
-
-    <div id="adminContent" class="admin-content">
-
-      <div class="divider"></div>
-
-      <h3>Administrator Tools</h3>
-
-      <p class="panel-description">
-        Authorized administrator controls.
+      <p class="muted">
+        Use this only to test the prototype. For a real emergency,
+        contact your local emergency services directly.
       </p>
 
-      <div class="form-actions">
+      <label for="reportLocation">Location or area</label>
+      <input id="reportLocation" maxlength="100"
+        placeholder="e.g. House 12, Block 3">
 
-        <button
-          class="btn danger"
-          id="testAlertBtn"
-          type="button"
-        >
-          Create Test Alert
-        </button>
+      <label for="reportDetails">What was observed?</label>
+      <textarea id="reportDetails" maxlength="500" rows="3"
+        placeholder="Describe the test report…"></textarea>
 
-        <button
-          class="btn secondary"
-          id="enablePushBtn"
-          type="button"
-        >
-          Enable Notifications
-        </button>
+      <button class="button button-danger" id="reportBtn">
+        Submit test report
+      </button>
 
-        <button
-          class="btn secondary"
-          id="adminLogoutBtn"
-          type="button"
-        >
-          Sign Out
-        </button>
+      <p class="form-message" id="reportMessage"></p>
+    </article>
 
+  </section>
+
+  <section class="panel events-panel">
+    <div class="panel-heading">
+      <div>
+       <p class="eyebrow">ACTIVITY</p>
+
+<!-- RECENT EVENTS -->
+<section class="panel">
+
+  <div class="panel-header">
+    <h3>Recent Incident Reports</h3>
+
+    <button
+      class="btn secondary"
+      type="button"
+      onclick="location.reload()"
+    >
+      Refresh
+    </button>
+
+    <button
+      class="btn secondary"
+      id="enableAlarmBtn"
+      type="button"
+    >
+      🔔 Enable Fire Alarm
+    </button>
+  </div>
+
+  <div id="eventList" class="event-list">
+    <div class="empty-state">
+      No incident reports loaded yet.
+    </div>
+  </div>
+
+</section>
+
+<!-- ADMINISTRATOR PANEL -->
+
+  <div id="eventList" class="event-list">
+
+  <section class="panel admin-panel hidden" id="adminPanel">
+    <div class="panel-heading">
+      <div>
+        <p class="eyebrow">RESTRICTED AREA</p>
+        <h2>Administrator tools</h2>
       </div>
 
+      <button class="button button-quiet button-small"
+        id="adminCloseBtn">
+        Close
+      </button>
+    </div>
+       
+    <div id="authArea">
+      <p class="muted">
+        Sign in with your administrator account.
+      </p>
+
+      <label for="adminEmail">Email</label>
+      <input id="adminEmail" type="email"
+        placeholder="admin@example.com">
+
+      <label for="adminPassword">Password</label>
+      <input id="adminPassword" type="password"
+        placeholder="Password">
+
+      <div class="button-row">
+        <button class="button button-primary" id="signInBtn">
+          Sign in
+        </button>
+
+        <button class="button button-quiet" id="signUpBtn">
+          Create account
+        </button>
+      </div>
+
+      <p class="form-message" id="authMessage"></p>
     </div>
 
+    <div id="adminTools" class="hidden">
+      <p id="adminIdentity" class="muted"></p>
+
+      <div class="button-row">
+        <button class="button button-primary" id="testAlertBtn">
+          Create test alert
+        </button>
+
+        <button class="button button-quiet" id="enablePushBtn">
+          Enable notifications
+        </button>
+
+        <button class="button button-quiet" id="signOutBtn">
+          Sign out
+        </button>
+      </div>
+
+      <p class="form-message" id="adminMessage"></p>
+    </div>
   </section>
 
 </main>
 
 <footer class="footer">
-  <p>FlareMap | Fire Awareness Monitoring Prototype</p>
-  <p>For research and educational demonstration only.</p>
+  <span>FlareMap prototype</span>
+  <span>For research and demonstration only</span>
 </footer>
 
 </body>
