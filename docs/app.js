@@ -411,13 +411,14 @@ async function sendTestAlert() {
 
   const { error } = await supabaseClient
     .from("alarm_events")
-    .insert({
-      user_id: currentUser.id,
-      location: "FlareMap Demo",
-      description: "Administrator-created test alert.",
-      event_type: "test_alert",
-      status: "test"
-    });
+ .insert({
+  user_id: currentUser.id,
+  location: "FlareMap Demo",
+  description: "Administrator-created test alert.",
+  incident_type: "test_alert",
+  event_type: "test_alert",
+  status: "test"
+});
 
   if (error) {
     showMessage(adminMessage, "Could not create the test alert.", "error");
