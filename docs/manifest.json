@@ -1,0 +1,17 @@
+{
+  "name": "FlareMap Fire Awareness Prototype",
+  "short_name": "FlareMap",
+  "description": "A school prototype for simulated environmental monitoring.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#111827",
+  "icons": [
+    {
+      "src": "icons/house.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

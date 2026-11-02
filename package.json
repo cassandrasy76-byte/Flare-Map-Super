@@ -1,0 +1,16 @@
+
+{
+  "name": "flaremap",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FlareMap fire incident mapping and location reporting prototype",
+  "scripts": {
+    "generate:vapid": "node scripts/generate-vapid.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.0"
+  },
+  "devDependencies": {
+    "web-push": "^3.6.7"
+  }
+}

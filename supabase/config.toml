@@ -1,0 +1,5 @@
+ 
+project_id = "gywjyuzrdkhjpqmvvpgp"
+
+[functions.flaremap]
+verify_jwt = true

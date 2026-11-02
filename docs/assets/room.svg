@@ -1,0 +1,61 @@
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 500 300">
+
+  <rect width="500" height="300" rx="18"
+        fill="#17243a"/>
+
+  <!-- Room walls -->
+  <path d="M65 225 V75 L250 30 L435 75 V225"
+        fill="none"
+        stroke="#94a3b8"
+        stroke-width="7"
+        stroke-linejoin="round"/>
+
+  <!-- Floor -->
+  <path d="M65 225 L250 270 L435 225"
+        fill="none"
+        stroke="#94a3b8"
+        stroke-width="7"/>
+
+  <!-- Window -->
+  <rect x="105" y="95" width="90" height="75"
+        rx="5" fill="#26364e"
+        stroke="#38bdf8" stroke-width="5"/>
+
+  <path d="M150 95 V170 M105 132 H195"
+        stroke="#38bdf8" stroke-width="4"/>
+
+  <!-- Door -->
+  <rect x="330" y="125" width="65" height="100"
+        rx="4" fill="#26364e"
+        stroke="#94a3b8" stroke-width="5"/>
+
+  <circle cx="380" cy="177" r="4" fill="#ff8a3d"/>
+
+  <!-- Sensor -->
+  <rect x="230" y="80" width="40" height="30"
+        rx="7" fill="#ff8a3d"/>
+
+  <circle cx="250" cy="95" r="5" fill="#ffffff"/>
+
+  <!-- Sensor signal -->
+  <path d="M220 65 Q250 40 280 65"
+        fill="none" stroke="#ff8a3d"
+        stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Floor furniture -->
+  <rect x="115" y="195" width="110" height="35"
+        rx="8" fill="#26364e"/>
+
+  <rect x="130" y="180" width="80" height="20"
+        rx="6" fill="#ff8a3d"/>
+
+  <text x="250" y="290"
+        text-anchor="middle"
+        font-size="12"
+        fill="#94a3b8">
+    FLAREMAP ROOM MONITORING
+  </text>
+
+</svg>
